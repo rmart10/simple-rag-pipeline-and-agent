@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:rmartinonline.com)"
+      "WebFetch(domain:rmartinonline.com)",
+      "Bash(.venv/bin/python app.py > /tmp/rag_app.log 2>&1 & *)"
+    ],
+    "additionalDirectories": [
+      "/tmp"
     ]
   }
 }
