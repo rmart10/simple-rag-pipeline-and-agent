@@ -1,7 +1,7 @@
 """
 RAG agent — Chamberlain garage door opener manual.
 Requires:  ANTHROPIC_API_KEY in .env (or environment) + ingest.py already run.
-Start with:  python app.py
+Start with:  python app.py 
 """
 
 import os
