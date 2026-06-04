@@ -77,15 +77,6 @@ On first run, `ingest.py` will download the `all-MiniLM-L6-v2` embedding model (
 
 ---
 
-## Using Your Own Document
-
-1. Replace the PDF in `documents/`
-2. Update `PDF_PATH` in `ingest.py`
-3. Update the `SYSTEM` prompt and `TOOLS[0]["description"]` in `app.py` to describe the new subject
-4. Re-run `ingest.py`
-
----
-
 ## Dependencies
 
 | Package | Purpose |
