@@ -25,21 +25,30 @@ def load_pdf(path: str) -> list[dict]:
 
 
 def make_chunks(pages: list[dict]) -> list[dict]:
-    """Split each page's text into overlapping word-based chunks."""
-    chunks = []
+    """Split the full document into overlapping word-based chunks.
+
+    Words are flattened into a single (word, page_number) list before
+    windowing, so the sliding window can cross page boundaries freely.
+    Each chunk is tagged with the page where its first word appears.
+    """
+    # Flatten every page into one ordered list of (word, page_number) pairs
+    word_pages: list[tuple[str, int]] = []
     for page in pages:
-        words = page["text"].split()
-        step = CHUNK_SIZE - CHUNK_OVERLAP
-        for start in range(0, len(words), step):
-            chunk_words = words[start : start + CHUNK_SIZE]
-            if len(chunk_words) < 20:  # skip tiny trailing fragments
-                continue
-            chunks.append(
-                {
-                    "text": " ".join(chunk_words),
-                    "page": page["page"],
-                }
-            )
+        for word in page["text"].split():
+            word_pages.append((word, page["page"]))
+
+    chunks = []
+    step = CHUNK_SIZE - CHUNK_OVERLAP
+    for start in range(0, len(word_pages), step):
+        items = word_pages[start : start + CHUNK_SIZE]
+        if len(items) < 20:  # skip tiny trailing fragments
+            continue
+        chunks.append(
+            {
+                "text": " ".join(w for w, _ in items),
+                "page": items[0][1],  # page where this chunk begins
+            }
+        )
     return chunks
 
 
